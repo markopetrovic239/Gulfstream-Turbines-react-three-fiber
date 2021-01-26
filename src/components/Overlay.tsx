@@ -76,6 +76,7 @@ function ContinuousSlider() {
     var b =newValue;
     useStore.setState({num: newValue as number / 100})
     setSliderDepth(newValue as number);
+   // useStore.setState({depth: newValue as number*-1})
   };
 
   useSpring({
@@ -87,7 +88,7 @@ function ContinuousSlider() {
       velocity: 1    // The initial speed of the movement
   }    
     
- })
+ }) 
   return (
     <div className={classes.root}>
       <Grid container spacing={2} aria-colspan={4}>
