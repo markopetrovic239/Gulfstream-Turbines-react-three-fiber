@@ -1,0 +1,63 @@
+{
+  "name": "react-three-fiber-typescript",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
+    "@openbci/utilities": "^1.0.0",
+    "@react-spring/three": "^9.0.0-rc.3",
+    "@react-three/drei": "^2.2.7",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/history": "^4.7.8",
+    "@types/react-router-dom": "^5.1.6",
+    "drei": "^1.5.7",
+    "history": "^5.0.0",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "material-ui-image": "^3.3.1",
+    "mobx": "^6.0.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-globe.gl": "^2.13.0",
+    "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.1",
+    "react-spring": "^8.0.27",
+    "react-swipeable-views": "^0.13.9",
+    "react-three-fiber": "^4.0.12",
+    "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
+    "styled-components": "^5.2.1",
+    "three-globe": "^2.11.1",
+    "types": "^0.1.1",
+    "use-asset": "^1.0.2",
+    "worldwind-react-globe": "^1.2.0",
+    "zustand": "^3.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  }
+}

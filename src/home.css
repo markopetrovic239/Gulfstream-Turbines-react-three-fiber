@@ -1,0 +1,34 @@
+
+
+
+
+
+
+
+#root,
+html, body {
+
+
+  height: calc(100vh - 50px);
+  width: 100vw; 
+  margin:0;
+  
+  padding:0;
+  
+  
+  
+  }
+canvas {
+  height: calc(100vh - 50px);
+  margin: auto;
+  padding: auto;
+  width: 100vw;
+  background: rgb(0,7,43);
+background: linear-gradient(0deg, rgba(0,7,43,1) 0%, rgba(1,17,64,1) 60%, rgba(9,49,121,0.9192810913427871) 100%);
+ /*  background: url(/ocean.jpg) repeat center center;
+  background-size: cover;  */
+}
+
+
+
+
