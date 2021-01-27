@@ -18,6 +18,9 @@ html, body {
   
   
   }
+  img{
+    animation: rotation 2s infinite linear;
+  }
 canvas {
   height: calc(100vh - 50px);
   margin: auto;

@@ -2,7 +2,7 @@ import React, { Suspense, useState, useEffect, useRef } from "react";
 import { Canvas, useLoader, useThree, useFrame } from "react-three-fiber";
 import "./home.css";
 import * as THREE from "three";
-import TurbineScene from "./components/TurbineScene";
+import TurbineArray from "./components/TurbineArray";
 import { Plane, OrbitControls} from "drei";
 import Overlay from "./components/Overlay"
 import Ship from "./components/Ship"
@@ -11,21 +11,21 @@ import { Html } from "@react-three/drei";
 import Globe from './components/Globe'
 import {useGlobe} from './components/Globe'
 import { AppBar, Toolbar, Typography, makeStyles, useTheme, Menu, Button, MenuItem, Color, Tab, Tabs, Box, Select, Theme, createStyles, FormControl } from "@material-ui/core";
-import logo from './whitelogo.png'
-import Image from 'material-ui-image'
-import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';import { InputLabel } from "@material-ui/core";
-
+import { InputLabel } from "@material-ui/core";
+import { animated, useSpring } from "@react-spring/three";
+import {useStore} from './components/Store'
+import Dolphin from './components/Dolphin'
 
 const Terrain: any = () => {
   const elevation = useLoader(THREE.TextureLoader, "terrain.png");
   const normal = useLoader(THREE.TextureLoader, "terrainspec.png");
   const color = useLoader(THREE.TextureLoader, "oceanfloor.png");
   return (
+    <>
     <Plane
       rotation={[-Math.PI / 2, 0, Math.PI/2]}
-      position={[0, -10, 0]}
-      args={[256, 256, 1024, 1024]}
+      position={[-100, -10, 0]}
+      args={[400, 400, 1024, 1024]}
     >
       <meshStandardMaterial
         attach="material"
@@ -35,85 +35,37 @@ const Terrain: any = () => {
         map={color}
       />
     </Plane>
-  );
-};
- /*
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
+    <Plane
+      rotation={[-Math.PI / 2, 0, Math.PI/2]}
+      position={[0, -10, -400]}
+      args={[400, 400, 1024, 1024]}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
+      <meshStandardMaterial
+        attach="material"
+        color="white"
+        map={color}
+      />
+    </Plane>
+    <Plane
+      rotation={[-Math.PI / 2, 0, Math.PI/2]}
+      position={[0, -10, 400]}
+      args={[400, 400, 1024, 1024]}
+    >
+      <meshStandardMaterial
+        attach="material"
+        color="white"
+        map={color}
+      />
+    </Plane>
+    </>
   );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
 };
-
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
-  };
-}
-
-const useTabStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    color: 'white',
-    width: 500,
-  },
-}));
-
- function FullWidthTabs() {
-  const classes : any = useTabStyles();
-  const theme = useTheme();
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
-
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-    </div>
-  );
-} */
-
+ 
 const useStyles = makeStyles(() => ({
   header: {
     backgroundColor: "#00001a",
-    height: '50px',
+    height: '8vh',
+    fontFamily: "Arial, serif",
   },
   logo: {
     fontFamily: "Candara, sans-serif",
@@ -125,24 +77,6 @@ const useStyles = makeStyles(() => ({
     marginLeft: "2vw",
   },
 }));
-
- function Header() {
-  const { header, logo } = useStyles();
-
-  const displayDesktop = () => {
-    return <Toolbar className={header}>{femmecubatorLogo}</Toolbar>;
-  };
-
-  const femmecubatorLogo = (
-    <Typography variant="h6" component="h1" className={logo}>
-       Turbine Simulator v1.2
-    </Typography>
-  );
-
-  return (
-    <Toolbar className={header}>{femmecubatorLogo}</Toolbar>
-  );
-}
 
 
 const selectStyles = makeStyles((theme: Theme) =>
@@ -166,44 +100,30 @@ const selectStyles = makeStyles((theme: Theme) =>
   const [wireMat] = useState(new THREE.MeshStandardMaterial({ color: 'black', metalness:0.5}))
   const classes : any = selectStyles();
   const [age, setAge] = React.useState('');
+  const depth:any = useStore(state => state.depth);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setAge(event.target.value as string);
   };
- /*  const recordButtonPosition = (event: any) => {
-      setAnchorEl(event.currentTarget);
-      setMenuOpen(true);
-  }
-
-  let closeMenu = () => {
-      setMenuOpen(false);
-  } */
-  const title = (
-    <Typography variant="h5" component="h1" className={logo}>
-       Turbine Simulator v1.2
-    </Typography>
-  );
-/* 
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  }; */
-
+  const { dep }: any = useSpring({
+    dep: depth >= -100  ? [0, 7, 0] : depth >= -200 ? [0, 4, 0] 
+        :depth >= -300 ? [0, 1, 0] 
+        :depth >= -400 ? [0, -2, 0] 
+        :depth >= -500 ? [0, -5, 0] 
+        :depth >= -600 ? [0, -8, 0] 
+        :depth >= -700 ? [0, -11, 0] 
+        :[0, -15, 0],
+    config: { mass: 1, tension: 100,  precision: 0.00001 }
+  })
   return (
 <>
-     {/* <FullWidthTabs/>*/}
-    <Toolbar className={header}>
+<Toolbar className={header}>
    
    <FormControl className={classes.formControl}>
-   <InputLabel shrink id="demo-simple-select-placeholder-label-label" style={{color: "white"}}>
-          Site Locations
+   <InputLabel shrink id="demo-simple-select-placeholder-label-label" style={{color: "white", fontFamily: 'Arial'}}>
+          SITE LOCATION
         </InputLabel>
-   <Select
+      <Select
           value={age}
           color="secondary"
           onChange={handleChange}
@@ -215,103 +135,97 @@ const selectStyles = makeStyles((theme: Theme) =>
           inputProps={{
             classes: {
                 icon: classes.icon,
-            },
-        }}
-        
-        >
-      <MenuItem value="">
-       Gulf Stream
-      </MenuItem>
-          <MenuItem value={10}>Agulhas Current</MenuItem>
-          <MenuItem value={20}>South Pacific Gyre</MenuItem>
-        </Select>
-        
-   {/* <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          style={{color: '#FFFFFF'}}
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Item One" {...a11yProps(0)} >
-          <Menu
-          anchorEl={anchorEl}
-          open={menuOpen}
-          onClose={closeMenu}>
-          <MenuItem onClick={closeMenu}> ExampleMenuItem </MenuItem> 
-      </Menu>
-      </Tab>
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-        </Tabs> */}
+                      },
+                  }}
+                  >
+          <MenuItem value="">
+          Gulf Stream
+          </MenuItem>
+      </Select>
           </FormControl>
-          <Tab label="Turbine View" style={{color: 'white', marginLeft: '2vw'}} onClick={()=>{useGlobe.setState({show: true})}}/>
-          <img  src="./whitelogo.png" alt="nothing" style={{width: '15vw', height: '8vh', paddingLeft: '55vw'}}/>
-          
-          {/* {title} */}
-          
-        </Toolbar> 
+          <Tab label={show ? "Earth View" : "Turbine View"} style={{color: 'white', marginLeft: '2vw'}} onClick={()=>{
+            useStore.setState({depth: -100, speed: 1})
+            useGlobe.setState({show: !show})}}/>
+          <a href="https://gulfstream.energy/">
+          <img  src="./OWWT.png" alt="nothing" style={{width: '3.5vw', height: '6.9vh', paddingLeft: '75vw', paddingTop: '1vh', paddingBottom: '1vh'}}/>
+          </a>
+    </Toolbar> 
+
     {show ? 
-    <Canvas camera={{ position: [15, 5, 10]}} /* style={{height: '100%', margin: 0, padding: 0, width: '100%', backgroundColor: 'rgb(0,7,43)',
-     background: 'linear-gradient(0deg, rgba(0,7,43,1) 0%, rgba(1,17,64,1) 60%, rgba(9,49,121,0.9192810913427871) 100%)'}} */>
-      <fog attach="fog" args={["rgb(1,17,64)", 0, 50]} />
-      <OrbitControls 
+    <Canvas camera={{ position: [15, 5, 10]}}>
+     <Overlay />
+
+     <OrbitControls 
       position={[10, 10, 10]}
-     maxDistance={25} minDistance={20}   //(depth/-25)+20
+      maxDistance={25} minDistance={20}
       enablePan={false}   
-       minPolarAngle={11*Math.PI/24} maxPolarAngle={11*Math.PI/24}  
-       minAzimuthAngle={2*Math.PI/5}  maxAzimuthAngle={3*Math.PI/5} 
+      minPolarAngle={10.5*Math.PI/24} maxPolarAngle={10.5*Math.PI/24}  
+      minAzimuthAngle={2*Math.PI/5}  maxAzimuthAngle={3*Math.PI/5} 
        />
-      <Overlay />
+
+      <fog attach="fog" args={["rgb(1,17,64)", 0, 50]} />
+           
+      
       <Suspense fallback={<Html><CircularProgress /></Html>}>
-        <Terrain />
+
+        <Suspense fallback={null}>
+          <Dolphin pos={[-3,5.3,-10]} tailSpeed={3} height = {1.7} pathName={"/dolphin2.glb"}/>
+          <Dolphin pos={[-2.8,5.4,-9]} tailSpeed={3.3} height = {1.7} pathName={"/dolphin3.glb"}/>
+          <Dolphin pos={[-2.5,6,-11]} tailSpeed={2} height = {1.7} pathName={"/dolphin4.glb"}/>
+          <Dolphin pos={[-3.2,5.5,-11]} tailSpeed={2.5} height = {1.7} pathName={"/dolphin5.glb"}/>
+          <Dolphin pos={[-2.7,5.7,-9]} tailSpeed={2.8} height = {1.7} pathName={"/dolphin6.glb"}/>
+        </Suspense>
+      
+      <animated.mesh position={dep}>
+       <Terrain />
         <hemisphereLight
           intensity={2.5}
           color={"rgb(92, 173, 228)"}
           position={[7, 5, 1]}
         />
         <mesh position={[-24, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
         <mesh position={[-20, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
         <mesh position={[-16, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
         <mesh position={[-12, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
         <mesh position={[-8, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
-        <mesh position={[-4, 0, 0]}>
-          <TurbineScene />
+       <mesh position={[-4, 0, 0]}>
+          <TurbineArray />
         </mesh>
         <mesh position={[0, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
         <mesh position={[4, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
         <mesh position={[8, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
         <mesh position={[12, 0, 0]}>
-          <TurbineScene />
+          <TurbineArray />
         </mesh>
-
         <mesh 
-        position={[-142, -9, 0]} 
+        position={[-142, -9.5, 0]} 
         rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
         material={wireMat}>
         <cylinderBufferGeometry attach="geometry" args={[.08, .08, 500]}/>
         </mesh>
         <Ship />
-        
-      </Suspense>
-    </Canvas>: <Globe />}
+      </animated.mesh>
+    </Suspense>
+
+    </Canvas>: 
+    <Globe />
+    }
   </>
   );
 }

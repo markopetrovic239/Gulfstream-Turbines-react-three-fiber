@@ -1,39 +1,18 @@
 import React, {useRef, useMemo, useEffect, useState, Suspense} from 'react';
 import Globe from 'react-globe.gl';
 import '../home.css'
-import history from '../services/history'
 import create from 'zustand'
-import {Html} from 'drei'
 import { useThree } from 'react-three-fiber';
-import * as THREE from 'three'
+import {useStore} from './Store'
 
 export const useGlobe = create(set => ({
-  show: true,
+  show: false,
 }))
 
   const GlobeScene: React.FC = () =>{ 
-    const globeEl:any = useRef();
-
-
-    const[init, setInit] = useState(true)
-    // useFrame will run outside of react in animation frames to optimize updates.
-    /* useFrame(() => {
-  if(init)
-      {
-       // console.log(globeEl)
-        //globeEl.current.controls().autoRotate = true;
-        //globeEl.current.controls().autoRotateSpeed = 0.1;
-        setInit(false)
-    }
-    
-  
-    });  */
-  
-
+  const globeEl:any = useRef();
   const [sites, setSites] = useState([])
 
-
-  const[show, setShow] = useState(false)
   const[showPaths, setPaths] = useState(false)
   const data =
   [
@@ -58,7 +37,6 @@ export const useGlobe = create(set => ({
    <Globe
       globeImageUrl="/EarthClouds.png"
       bumpImageUrl="/earthbump1k.png"
-     // backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
       animateIn
       ref={globeEl}
      /*  pathsData={showPaths? gData: data}
@@ -70,14 +48,6 @@ export const useGlobe = create(set => ({
       labelText={(d:any)=> d.properties.name}
       labelSize={(d:any)=> (d.properties.size + 0.5)}
       labelDotRadius={(d:any)=> d.properties.size} 
-     /*  customLayerData={data}
-      customThreeObject={(d:any) => new THREE.Mesh(
-        new THREE.SphereBufferGeometry(1000),
-        new THREE.MeshLambertMaterial({ color: "blue" })
-      )}
-      customThreeObjectUpdate={(obj, d:any) => {
-        Object.assign(obj.position, globeEl.current.getCoords(d.lat, d.lng, d.altitude));
-      }} */
      
       labelColor={() => 'rgba(219, 233, 255, 0.75)'}
       labelLabel={(d:any) => `
@@ -86,6 +56,7 @@ export const useGlobe = create(set => ({
       labelResolution={2}
       onLabelClick={()=> {
         useGlobe.setState({show: true})
+        useStore.setState({depth: -100, speed: 1})
       }}    
      />
   

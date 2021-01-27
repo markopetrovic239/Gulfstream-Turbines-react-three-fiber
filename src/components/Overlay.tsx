@@ -26,7 +26,7 @@ const WhiteTextTypography = withStyles({
   root: {
     color: "#FFFFFF",
     position: "relative",
-    fontFamily: "Candara",
+    fontFamily: "Arial",
     fontSize: "12px",
   }
 })(Typography);
@@ -37,7 +37,7 @@ const WhiteTextField = withStyles({
     WebkitTextFillColor: "#FFFFFF",
     borderColor: "#FFFFFF",
     position: "relative",
-    fontFamily: "Candara",
+    fontFamily: "Arial",
     fontSize: "10px",
   }
 })(TextField);
@@ -46,7 +46,7 @@ const WhiteTextField = withStyles({
   root: {
     color: "#FFFFFF",
     position: "relative",
-    fontFamily: "Candara, serif",
+    fontFamily: "Arial, serif",
     fontSize: "20px",
     marginTop:"20px",
   }
@@ -63,7 +63,6 @@ function ContinuousSlider() {
   const classes = useStyles();
   const [value, setValue] = React.useState<number>(1);
   const speed:any = useStore(state => state.speed);
-  const depth:any = useStore(state => state.depth);
   const [sliderDepth, setSliderDepth] = useState(100);
   const [arrayNum, setArrayNum] = useState(10);
 
@@ -74,12 +73,12 @@ function ContinuousSlider() {
 
   const handleDepth = (event: any, newValue: number | number[]) => {
     var b =newValue;
-    useStore.setState({num: newValue as number / 100})
+    //useStore.setState({num: newValue as number / 100})
     setSliderDepth(newValue as number);
-   // useStore.setState({depth: newValue as number*-1})
+   useStore.setState({depth: newValue as number*-1})
   };
 
-  useSpring({
+  /* useSpring({
     sliderDepth: sliderDepth,
     onChange: ({ sliderDepth }) => useStore.setState({depth: sliderDepth*-1}),
     config: {
@@ -88,7 +87,7 @@ function ContinuousSlider() {
       velocity: 1    // The initial speed of the movement
   }    
     
- }) 
+ })  */
   return (
     <div className={classes.root}>
       <Grid container spacing={2} aria-colspan={4}>
@@ -135,9 +134,7 @@ function ContinuousSlider() {
       <WhiteTextTypography id="continuous-slider" gutterBottom>
       &nbsp;
       </WhiteTextTypography>
-      <WhiteTextTypography id="continuous-slider" gutterBottom>
-      &nbsp;
-      </WhiteTextTypography>
+
       <WhiteTextField
           id="standard-number"
           label="Cable Arrays"
@@ -158,10 +155,12 @@ function ContinuousSlider() {
       Total turbines: &nbsp;&nbsp;&nbsp;{sliderDepth/100 * arrayNum}
       </WhiteTextTypography>
 
-
-      <OutputTextTypography color="secondary" id="continuous-slider" gutterBottom>
-      Output: {Math.round(((speed/1.75)*0.25*(sliderDepth/100 * arrayNum))*100)/100} MW
-      </OutputTextTypography>
+      <WhiteTextTypography id="continuous-slider" gutterBottom>
+      &nbsp;
+      </WhiteTextTypography>
+      <WhiteTextTypography color="secondary" id="continuous-slider" gutterBottom>
+      Average Output {Math.round(((speed/1.75)*0.25*(sliderDepth/100 * arrayNum))*100)/100} MW
+      </WhiteTextTypography>
 
         </Grid> 
       </Grid>
