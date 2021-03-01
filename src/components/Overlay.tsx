@@ -63,6 +63,7 @@ function ContinuousSlider() {
   const classes = useStyles();
   const [value, setValue] = React.useState<number>(1);
   const speed:any = useStore(state => state.speed);
+  const station:any = useStore(state => state.station);
   const [sliderDepth, setSliderDepth] = useState(100);
   const [arrayNum, setArrayNum] = useState(10);
 
@@ -162,6 +163,11 @@ function ContinuousSlider() {
       Average Output {Math.round(((speed/1.75)*0.25*(sliderDepth/100 * arrayNum))*100)/100} MW
       </WhiteTextTypography>
 
+          <Button onClick={()=>{
+            useStore.setState({station: station === 'main' ? 'single' : 'main'})
+          }} style={{marginTop: '15vw'}} >
+            Main Station
+          </Button>
         </Grid> 
       </Grid>
     </div>

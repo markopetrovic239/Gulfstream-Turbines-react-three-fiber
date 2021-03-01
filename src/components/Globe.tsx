@@ -2,7 +2,6 @@ import React, {useRef, useMemo, useEffect, useState, Suspense} from 'react';
 import Globe from 'react-globe.gl';
 import '../home.css'
 import create from 'zustand'
-import { useThree } from 'react-three-fiber';
 import {useStore} from './Store'
 
 export const useGlobe = create(set => ({
@@ -31,7 +30,6 @@ export const useGlobe = create(set => ({
       globeEl.current.controls().autoRotate = true;
       globeEl.current.controls().autoRotateSpeed = 0.1;
     },[showPaths])
-    const { camera, gl } = useThree();
     return (
         <div style={{position:'absolute', height: '90px'}}>
    <Globe

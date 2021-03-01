@@ -14,7 +14,7 @@ export default function Turbine (){
   const  {nodes}: any  = useLoader(GLTFLoader, '/Spinner.glb');
 
 
- useFrame(() => (group.current.rotation.y += (2*Math.PI/1800)* speed/1.75))
+// useFrame(() => (group.current.rotation.y += (2*Math.PI/1800)* speed/1.75))
 
 
 return(
